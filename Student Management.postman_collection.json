@@ -1,0 +1,787 @@
+{
+	"info": {
+		"_postman_id": "847888d8-43e1-45e6-be87-6e90b47a1aaf",
+		"name": "Student Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28016390"
+	},
+	"item": [
+		{
+			"name": "Register and Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "test_user1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpass",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/register/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "refresh",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwNDM4MzIyNywiaWF0IjoxNzAzNTE5MjI3LCJqdGkiOiI5MTMwOGY5NDI1MWE0YjExYjY2M2QwMTk5ZjNlZmU3NSIsInVzZXJfaWQiOjN9.uEGNBin--5KEpdfFd8h17F-M2KHHcsBMcCpju2aPTYQ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/refresh-token/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"refresh-token",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "test_user1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpass",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/login/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Student list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-list/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-list",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test3",
+									"type": "text"
+								},
+								{
+									"key": "roll_no",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Windwos/Downloads/healthcare.png"
+								},
+								{
+									"key": "subject",
+									"value": "[2,3,4]",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "student_class",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "subject_scores",
+									"value": "[50,40,30]",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-delete/8/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-delete",
+								"8",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partial update student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "update_partial",
+									"type": "text"
+								},
+								{
+									"key": "roll_no",
+									"value": "101",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "subject_scores",
+									"value": "[1,2,3,4,6]",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-partial-update/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-partial-update",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "student-update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test_update",
+									"type": "text"
+								},
+								{
+									"key": "roll_no",
+									"value": "101",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-update/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-update",
+								"3",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search-query-params",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-list/?name=test&roll_no=101&student_class=10",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-list",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "test"
+								},
+								{
+									"key": "roll_no",
+									"value": "101"
+								},
+								{
+									"key": "student_class",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Score",
+			"item": [
+				{
+					"name": "list-score",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-score-list/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-score-list",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subject-score-create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "score",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "student",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-score-create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-score-create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subject-score-update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "score",
+									"value": "40",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "student",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-score-update/9/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-score-update",
+								"9",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subject-score-delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-score-delete/9/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-score-delete",
+								"9",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subjects",
+			"item": [
+				{
+					"name": "subject-create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name ",
+									"value": "TestCheck",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subject-update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Update_check",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-update/7/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-update",
+								"7",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list subject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/subject-list/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"subject-list",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subject delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAzNzAxMjkxLCJpYXQiOjE3MDM1Mjg0OTEsImp0aSI6ImJiYTUzYzk2ZjVlYzQ2N2NiMDZlZDgzN2E3OGM0OWU0IiwidXNlcl9pZCI6MX0.EWdc82zlMXi52nKwlqFoXthXbnEQu_hvZ07MBs41I9E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/student-delete/7/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"student-delete",
+								"7",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
