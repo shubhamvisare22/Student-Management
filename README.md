@@ -1,4 +1,4 @@
-# Student Marksheet Management System
+# Student Marksheet Management
 
 ## Overview
 This Django-based web application allows users to manage student marksheets efficiently. It offers functionalities to submit marksheet data via web forms and provides a secure REST API for authenticated users.
