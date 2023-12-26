@@ -1,9 +1,13 @@
 from rest_framework import serializers
 from .models import Subject, Student, SubjectScore
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the User model.
+    """
     class Meta:
         model = User
         fields = ['username', 'password']
@@ -15,36 +19,37 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Subject model.
+    """
     class Meta:
         model = Subject
-        fields = ('id', 'name')  
+        fields = ('id', 'name')
 
 
 class SubjectScoreSerializer(serializers.ModelSerializer):
-    subject = SubjectSerializer()
+    """
+    Serializer for the SubjectScore model.
+    """
+    subject = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
 
     class Meta:
         model = SubjectScore
-        fields = ('score', 'subject')
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        if 'student_scores' in self.context:  
-            # Exclude 'id' field for 'score' when used in StudentSerializer
-            representation['subject'] = {
-                'id': representation['subject']['id'],
-                'name': representation['subject']['name']
-            }
-            representation.pop('id', None)  # Remove 'id' field from 'score'
-        return representation
-
+        fields = ('id', 'score', 'subject', 'student')
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    subject_scores = SubjectScoreSerializer(many=True, context={'student_scores': True})
-    
+    """
+    Serializer for the Student model.
+    """
+    subject_scores = SubjectScoreSerializer(many=True, required=False)
+    total_score = serializers.SerializerMethodField()
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'roll_no', 'photo', 'student_class', 'subject_scores')
+        fields = ('id', 'name', 'roll_no', 'photo',
+                  'student_class', 'subject_scores', 'total_score')
 
+    def get_total_score(self, obj):
+        return obj.subject_scores.aggregate(total_score=Sum('score'))['total_score'] or 0
