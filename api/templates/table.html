@@ -1,0 +1,44 @@
+{% load static %}
+<div class="col-sm-12 mt-4">
+  <h2>Student Details</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Serial Number</th>
+        <th>Student Name</th>
+        <th>Roll Number</th>
+        <th>Photo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="studentTableBody"></tbody>
+  </table>
+</div>
+
+<!-- Modal for subject scores -->
+<div
+  class="modal fade"
+  id="subjectScoresModal"
+  tabindex="-1"
+  aria-labelledby="subjectScoresModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="subjectScoresModalLabel">Subject Scores</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" id="subjectScoresModalBody">
+        <!-- Subject scores will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'table.js' %}"></script>
+</div>

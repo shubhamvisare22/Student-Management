@@ -21,9 +21,6 @@ class Student(models.Model):
     photo = models.ImageField(upload_to='student_photos/', blank=True, null=True)
     student_class = models.IntegerField(choices=[(i, i) for i in range(1, 13)], default=1)
 
-    def __str__(self) -> str:
-        return self.name
-
 
 class SubjectScore(models.Model):
     """
@@ -35,7 +32,3 @@ class SubjectScore(models.Model):
     
     class Meta:
         unique_together = ('student', 'subject')
-        
-    def __str__(self) -> str:
-        return f'{self.score}, {self.student}, {self.subject}'
-

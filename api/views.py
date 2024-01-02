@@ -9,30 +9,54 @@ from .serializers import SubjectSerializer, StudentSerializer, SubjectScoreSeria
 from django.contrib.auth import authenticate
 from .paginations import CustomPagination
 from django.db.models import Sum
+from django.shortcuts import render
+from django.http import JsonResponse
+
+
+def student_management_view(request):
+    return render(request, 'index.html')
+
+
+def subject_management_view(request):
+    return render(request, 'subject.html')
+
+
+def create_student(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        roll_no = request.POST.get('roll_no')
+        photo = request.FILES.get('photo')
+        stu_cls = request.POST.get('stu_cls')
+        subjects = []
+
+        for i in range(1, 6):
+            subject_id = request.POST.get(f'subject_scores[{i - 1}][subject]')
+            score = request.POST.get(f'subject_scores[{i - 1}][score]')
+
+            if subject_id and score:
+                subjects.append({'subject_id': subject_id, 'score': score})
+
+        if not all([name, roll_no, photo, stu_cls, subjects]):
+            return JsonResponse({'message': 'Missing required fields.'}, status=400)
+
+        try:
+            student = Student.objects.create(
+                name=name, roll_no=roll_no, photo=photo, student_class=stu_cls)
+        except:
+            return JsonResponse({'message': 'Roll number must be unique', 'status': 0}, status=400)
+
+        for subject_data in subjects:
+            subject = Subject.objects.get(id=subject_data['subject_id'])
+            SubjectScore.objects.create(
+                student=student, subject=subject, score=subject_data['score'])
+
+        return JsonResponse({'message': 'Student created successfully!', 'status': 1})
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=400)
 
 
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserSerializer
-
-    """
-        Registers a new user.
-
-        Accepts a POST request with user details and creates a new user if the details are valid.
-
-        Request Data:
-        - username: The username for the new user
-        - password: The password for the new user
-
-        Returns:
-        - Upon successful registration, returns a response with tokens for the new user's authentication:
-            {
-                "refresh": "<refresh_token_string>",
-                "access": "<access_token_string>"
-            }
-
-        - If the registration fails due to invalid details, returns a response with errors and a status code of 400.
-    """
-
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
@@ -47,24 +71,6 @@ class UserRegistrationView(generics.CreateAPIView):
 
 
 class TokenRefreshView(APIView):
-
-    """
-        Refreshes an access token using a refresh token.
-
-        Accepts a POST request with a 'refresh' token and returns a new 'access' token.
-
-        Request Data:
-        - refresh: The refresh token to generate a new access token
-
-        Returns:
-        - Upon successful refresh, returns a response with a new 'access' token:
-            {
-                "access": "<new_access_token_string>"
-            }
-
-        - If the refresh token is invalid or expired, returns a response with an error and a status code of 400.
-    """
-
     def post(self, request, *args, **kwargs):
         refresh_token = request.data.get('refresh')
         if refresh_token:
@@ -79,26 +85,6 @@ class TokenRefreshView(APIView):
 
 
 class UserLoginView(APIView):
-
-    """
-        Authenticates user credentials and returns access and refresh tokens.
-
-        Accepts a POST request with 'username' and 'password' fields for user authentication.
-
-        Request Data:
-        - username: Username for authentication
-        - password: Password for authentication
-
-        Returns:
-        - Upon successful authentication, returns a response with 'access' and 'refresh' tokens:
-            {
-                "refresh": "<refresh_token_string>",
-                "access": "<access_token_string>"
-            }
-
-        - If the provided credentials are invalid, returns a response with an error message and a status code of 401.
-    """
-
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -118,105 +104,26 @@ class UserLoginView(APIView):
 
 class SubjectViewSet(viewsets.ModelViewSet):
 
-    """
-    API endpoint for managing subjects.
-
-    list:
-    Retrieve a paginated list of all subjects.
-
-    create:
-    Create a new subject instance.
-
-    retrieve:
-    Retrieve details of a specific subject instance.
-
-    update:
-    Update details of a specific subject instance.
-
-    partial_update:
-    Partially update details of a specific subject instance.
-
-    destroy:
-    Delete a specific subject instance.
-
-    Attributes:
-        queryset (QuerySet): The queryset of Subject objects.
-        serializer_class (Serializer): The serializer class for Subject.
-        permission_classes (list): Authenticated user only.
-        pagination_class (CustomPagination): Custom Pagination.
-
-    """
-
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
 
 
 class SubjectScoreViewSet(viewsets.ModelViewSet):
 
-    """
-    API endpoint for managing subject scores.
-
-    list:
-    Retrieve a paginated list of all subject scores.
-
-    create:
-    Create a new subject score instance.
-
-    retrieve:
-    Retrieve details of a specific subject score instance.
-
-    update:
-    Update details of a specific subject score instance.
-
-    partial_update:
-    Partially update details of a specific subject score instance.
-
-    destroy:
-    Delete a specific subject score instance.
-
-    Attributes:
-        queryset (QuerySet): The queryset of SubjectScore objects.
-        serializer_class (Serializer): The serializer class for SubjectScore.
-        permission_classes (list): Authenticated user only.
-        pagination_class (CustomPagination): Custom Pagination.
-
-    """
-
     queryset = SubjectScore.objects.all()
     serializer_class = SubjectScoreSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
 
 
 class StudentViewSet(viewsets.ModelViewSet):
 
-    """
-    A ViewSet for interacting with Student objects.
-
-    Provides CRUD operations for Student entities.
-    Supports filtering by name, roll number, or student class.
-
-    Query Parameters:
-    - name: Filter by student name.
-    - roll_no: Filter by student roll number.
-    - student_class: Filter by student class.
-
-    Results are paginated and ordered by total score (high to low).
-
-    Endpoint Details:
-    - get_queryset: Retrieve the list of students.
-    - create: Create a new student instance.
-    - retrieve: Retrieve a single student instance by ID.
-    - update: Update a student instance by ID.
-    - partial_update: Partially update a student instance by ID.
-    - destroy: Delete a student instance by ID.
-    """
-
-    queryset = Student.objects.annotate(total_score=Sum('subject_scores__score')).order_by('-total_score')
+    queryset = Student.objects.annotate(total_score=Sum(
+        'subject_scores__score')).order_by('-total_score')
     serializer_class = StudentSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
 
     def get_queryset(self):

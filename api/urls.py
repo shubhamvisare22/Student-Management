@@ -1,13 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SubjectViewSet, SubjectScoreViewSet, UserRegistrationView, TokenRefreshView, UserLoginView, StudentViewSet
+from .views import SubjectViewSet, SubjectScoreViewSet, UserRegistrationView, TokenRefreshView, UserLoginView, StudentViewSet, student_management_view, subject_management_view
 
 router = DefaultRouter()
 router.register(r'subjects', SubjectViewSet, basename='subject')
 router.register(r'subject-scores', SubjectScoreViewSet, basename='subject-score')
-router.register(r'students', StudentViewSet, basename='student')
+router.register(r'students', StudentViewSet, basename='student')    
 
 urlpatterns = [
+    
+    path('student-crud/', student_management_view, name='student_crud'),
+    path('subject-crud/', subject_management_view, name='subject_crud'),
     
     # --------------------------- Registration and Token urls --------------------------
     path('register/', UserRegistrationView.as_view(), name='register'),

@@ -24,16 +24,14 @@ class SubjectSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Subject
-        fields = ('id', 'name')
+        fields = '__all__'
+
 
 
 class SubjectScoreSerializer(serializers.ModelSerializer):
     """
     Serializer for the SubjectScore model.
     """
-    subject = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
-    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
-
     class Meta:
         model = SubjectScore
         fields = ('id', 'score', 'subject', 'student')
@@ -44,12 +42,16 @@ class StudentSerializer(serializers.ModelSerializer):
     Serializer for the Student model.
     """
     subject_scores = SubjectScoreSerializer(many=True, required=False)
-    total_score = serializers.SerializerMethodField()
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'roll_no', 'photo',
-                  'student_class', 'subject_scores', 'total_score')
+        fields = ('id', 'name', 'roll_no','student_class', 'photo', 'subject_scores')
 
-    def get_total_score(self, obj):
-        return obj.subject_scores.aggregate(total_score=Sum('score'))['total_score'] or 0
+    def create(self, validated_data):
+        subject_scores_data = validated_data.pop('subject_scores')
+        student = Student.objects.create(**validated_data)
+
+        for score_data in subject_scores_data:
+            SubjectScore.objects.create(student=student, **score_data)
+
+        return student
