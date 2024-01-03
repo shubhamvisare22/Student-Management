@@ -1,16 +1,37 @@
-{% extends "index.html" %} {% block content %}
+{% extends "index.html" %}
+{% block content %}
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-4"></div>
-        <!-- /.col -->
+        <div class="col-sm-4 pt-2">
+          <h2>Create Subject</h2>
+          <form id="sbjectForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="subName">Subject Name</label>
+              <input type="text" class="form-control" id="subName" />
+            </div>
+            <button type="button" class="btn btn-primary" id="submitSubjectBtn"> Submit </button>
+            <button type="button" class="btn btn-success" id="updateSubjectBtn" style="display: none" > Update Subject </button>
+          </form>
+        </div>
 
-        <div class="col-sm-8 pt-2"></div>
-        <!-- /.col -->
+        <div class="col-sm-8 pt-2">
+          <h2>Subject Details</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Serial Number</th>
+                <th>Subject Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="subjectTableBody"></tbody>
+          </table>
+        </div>
       </div>
-      <!-- /.row --> 
     </div>
+    {% endblock content %}
   </div>
-  {% endblock content %}
 </div>

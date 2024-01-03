@@ -119,7 +119,10 @@ class SubjectScoreViewSet(viewsets.ModelViewSet):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-
+    
+    # def create(self, request, *args, **kwargs):
+    #     print(request.data)
+    
     queryset = Student.objects.annotate(total_score=Sum(
         'subject_scores__score')).order_by('-total_score')
     serializer_class = StudentSerializer
