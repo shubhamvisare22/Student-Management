@@ -57,6 +57,7 @@ def create_student(request):
 
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserSerializer
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
@@ -119,15 +120,19 @@ class SubjectScoreViewSet(viewsets.ModelViewSet):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    
-    # def create(self, request, *args, **kwargs):
-    #     print(request.data)
-    
+
     queryset = Student.objects.annotate(total_score=Sum(
         'subject_scores__score')).order_by('-total_score')
     serializer_class = StudentSerializer
     # permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         queryset = super().get_queryset()

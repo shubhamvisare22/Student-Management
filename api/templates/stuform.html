@@ -1,0 +1,89 @@
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-4 pt-2">
+          <h2>Create Student</h2>
+          <form id="studentForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="stuName">Student Name</label>
+              <input type="text" class="form-control" id="stuName" />
+            </div>
+
+            <div class="form-group">
+              <label for="stuRoll">Roll Number</label>
+              <input type="number" class="form-control" id="stuRoll" />
+            </div>
+
+            <div class="form-group">
+              <label for="stuclass">Student Class</label>
+              <input type="number" class="form-control" id="stuclass" />
+            </div>
+
+            <div class="form-group">
+              <label for="stuPhoto">Upload Photo</label>
+              <input type="file" id="stuPhoto" />
+            </div>
+
+            <div id="subjectFields">
+              <!-- Subject and Score fields will be dynamically added here -->
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitStudentBtn">
+              Submit
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-success"
+              id="updateStudentBtn"
+              style="display: none"
+            >
+              Update Student
+            </button>
+          </form>
+        </div>
+
+        <div class="col-sm-8 pt-2">
+          <h2>Student Details</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Serial Number</th>
+                <th>Student Name</th>
+                <th>Roll Number</th>
+                <th>Photo</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add this modal structure inside your HTML -->
+<div class="modal fade" id="subjectScoresModal" tabindex="-1" role="dialog" aria-labelledby="subjectScoresModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="subjectScoresModalLabel">Subject Scores</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="subjectScoresModalBody">
+        <!-- Subject scores content will be populated here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% load static %}
+
+

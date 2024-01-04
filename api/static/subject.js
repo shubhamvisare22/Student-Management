@@ -79,15 +79,15 @@ $(document).ready(function () {
 
   function createSubjectTableRow(subject, index) {
     return `
-        <tr>
-          <td>${index}</td>
-          <td>${subject.name}</td>
-          <td>
-            <button class="btn btn-sm btn-success" data-subject-id="${subject.id}">Update</button>
-            <button class="btn btn-sm btn-danger" data-subject-id="${subject.id}">Delete</button>
-          </td>
-        </tr>
-      `;
+          <tr>
+            <td>${index}</td>
+            <td>${subject.name}</td>
+            <td>
+              <button class="btn btn-sm btn-success" data-subject-id="${subject.id}">Update</button>
+              <button class="btn btn-sm btn-danger" data-subject-id="${subject.id}">Delete</button>
+            </td>
+          </tr>
+        `;
   }
 
   function deleteSubject(subjectId) {
@@ -110,7 +110,9 @@ $(document).ready(function () {
       success: function (response) {
         $("#subName").val(response.name);
         $("#submitSubjectBtn").hide();
-        $("#updateSubjectBtn").show().click(function (event) {
+        $("#updateSubjectBtn")
+          .show()
+          .click(function (event) {
             event.preventDefault();
             const updatedSubjectId = $("#subjectId").val();
             updateSubject(updatedSubjectId);

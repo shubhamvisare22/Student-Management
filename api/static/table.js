@@ -1,18 +1,29 @@
+const baseUrl = "/api/v1/";
+const studentsUrl = `${baseUrl}student-list/`;
+const subjectsUrl = `${baseUrl}subject-list/`;
 $(document).ready(function () {
-  const baseUrl = "/api/v1/";
-
   // Fetch student data
   fetchStudentData();
+  // fetchSubjectData();
 
   function fetchStudentData() {
-    const studentsUrl = `${baseUrl}student-list/`;
-
     $.ajax({
       url: studentsUrl,
       method: "GET",
       success: function (response) {
         populateStudentTable(response.results);
       },
+      error: function (xhr, status, error) {
+        console.error(xhr, status, error);
+      },
+    });
+  }
+
+  function fetchSubjectData() {
+    $.ajax({
+      url: subjectsUrl,
+      method: "GET",
+      success: function (response) {},
       error: function (xhr, status, error) {
         console.error(xhr, status, error);
       },
@@ -123,7 +134,7 @@ $(document).ready(function () {
     });
   }
 
-  populateUpdateForm();
+  // populateUpdateForm();
 
   $("#updateStudentBtn").click(function (event) {
     event.preventDefault();
@@ -191,8 +202,97 @@ $(document).ready(function () {
       processData: false,
       enctype: "multipart/form-data",
       success: function (response) {
-        console.log(response);
-        // Reset form fields and show success message
+        $("#stuName, #stuRoll, #stuPhoto, #stuclass").val("");
+        for (let i = 1; i <= 5; i++) {
+          $(`#subject${i}, #score${i}`).val("");
+        }
+        fetchStudentData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data updated successfully.",
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error(xhr);
+        console.error(status);
+        console.error(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to update student data.",
+        });
+      },
+    });
+  });
+
+  $("#submitStudentBtn").click(function (event) {
+    event.preventDefault();
+
+    const studentId = $("#studentId").val();
+    const baseUrl = "/api/v1/";
+    const updateStudentUrl = baseUrl + `student-update/${studentId}/`;
+
+    let name = $("#stuName").val();
+    let roll_no = $("#stuRoll").val();
+    let stu_cls = $("#stuclass").val();
+    let fileInput = document.getElementById("stuPhoto");
+    let file = fileInput.files[0];
+    let token = $("input[name=csrfmiddlewaretoken]").val();
+
+    if (
+      name === "" ||
+      roll_no === "" ||
+      roll_no === 0 ||
+      stu_cls === "" ||
+      stu_cls === 0 ||
+      stu_cls >= 12 ||
+      !file
+    ) {
+      toastr.error("Please enter valid data for all fields.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("id", studentId); // Include the student ID for the update
+    formData.append("name", name);
+    formData.append("roll_no", roll_no);
+    formData.append("photo", file);
+    formData.append("stu_cls", stu_cls);
+    formData.append("csrfmiddlewaretoken", token);
+
+    const subjectScores = [];
+
+    for (let i = 1; i <= 5; i++) {
+      const subject = $(`#subject${i}`).val();
+      const score = $(`#score${i}`).val();
+
+      if (subject && score) {
+        const subjectScore = {
+          subject: subject,
+          score: score,
+          student: studentId,
+        };
+        subjectScores.push(subjectScore);
+      } else {
+        toastr.error(`Please enter both subject and score for Subject ${i}`);
+        return;
+      }
+    }
+
+    formData.append("subject_scores", JSON.stringify(subjectScores));
+
+    console.log(formData);
+
+    $.ajax({
+      url: updateStudentUrl,
+      method: "PUT",
+      data: formData,
+      contentType: false,
+      processData: false,
+      enctype: "multipart/form-data",
+      success: function (response) {
         $("#stuName, #stuRoll, #stuPhoto, #stuclass").val("");
         for (let i = 1; i <= 5; i++) {
           $(`#subject${i}, #score${i}`).val("");
