@@ -26,26 +26,21 @@
               <input type="file" id="stuPhoto" />
             </div>
 
-            <div id="subjectFields">
-              <!-- Subject and Score fields will be dynamically added here -->
-            </div>
-            <button type="submit" class="btn btn-primary" id="submitStudentBtn">
-              Submit
-            </button>
+            <div id="subjectFields"></div>
+            <button type="submit" class="btn btn-primary" id="submitStudentBtn">Submit</button>
 
-            <button
-              type="button"
-              class="btn btn-success"
-              id="updateStudentBtn"
-              style="display: none"
-            >
-              Update Student
-            </button>
+            <button type="button" class="btn btn-success" id="updateStudentBtn" style="display: none">Update Student</button>
           </form>
         </div>
 
         <div class="col-sm-8 pt-2">
           <h2>Student Details</h2>
+          <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by name..." />
+          <div class="pagination">
+            <button id="prevPageBtn" class="btn btn-warning mr-2 btn-sm">Previous</button>
+            <button id="nextPageBtn" class="btn btn-success btn-sm">Next</button>
+          </div>
+          <br />
           <table class="table">
             <thead>
               <tr>
@@ -64,15 +59,13 @@
   </div>
 </div>
 
-<!-- Add this modal structure inside your HTML -->
+<!-- modal to populate the subject and marks -->
 <div class="modal fade" id="subjectScoresModal" tabindex="-1" role="dialog" aria-labelledby="subjectScoresModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="subjectScoresModalLabel">Subject Scores</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body" id="subjectScoresModalBody">
         <!-- Subject scores content will be populated here -->
@@ -83,7 +76,3 @@
     </div>
   </div>
 </div>
-
-{% load static %}
-
-

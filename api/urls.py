@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SubjectViewSet, SubjectScoreViewSet, UserRegistrationView, TokenRefreshView, UserLoginView, StudentViewSet, student_management_view, subject_management_view
+from .views import SubjectViewSet, SubjectScoreViewSet, UserRegistrationView, TokenRefreshView, UserLoginView, StudentViewSet, student_management_view, subject_management_view, GetStudentsListView
 
 router = DefaultRouter()
 router.register(r'subjects', SubjectViewSet, basename='subject')
@@ -9,6 +9,10 @@ router.register(r'students', StudentViewSet, basename='student')
 
 urlpatterns = [
     
+    # --------------------------- getstudent endpoint ------------------------------
+    path('getstudents/', GetStudentsListView.as_view(), name='getstudents'),
+    
+    # --------------------------- Page Rendening Urls --------------------------------
     path('student-crud/', student_management_view, name='student_crud'),
     path('subject-crud/', subject_management_view, name='subject_crud'),
     

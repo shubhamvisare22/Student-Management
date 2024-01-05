@@ -19,6 +19,12 @@
 
         <div class="col-sm-8 pt-2">
           <h2>Subject Details</h2>
+          <input type="text" class="form-control mb-3" id="searchSubjectInput" placeholder="Search by subject name">
+          <div>
+            <button class="btn btn-warning mr-2 btn-sm" id="prevPageSubjectBtn" disabled>Previous</button>
+            <button class="btn btn-success btn-sm" id="nextPageSubjectBtn" disabled>Next</button>
+          </div>
+          <br>
           <table class="table">
             <thead>
               <tr>
@@ -29,6 +35,7 @@
             </thead>
             <tbody id="subjectTableBody"></tbody>
           </table>
+          
         </div>
       </div>
     </div>

@@ -6,6 +6,29 @@ $(document).ready(function () {
   const subjectsGetUrl = `${baseUrl}subject-detail/`;
   const subjectslistUrl = `${baseUrl}subject-list/`;
 
+  let nextPageUrl = null;
+  let prevPageUrl = null;
+
+  $('#searchSubjectInput').on('input', function () {
+    const searchText = $(this).val().toLowerCase();
+    filterSubjects(searchText);
+  });
+
+  function filterSubjects(searchText) {
+    const subjects = $('#subjectTableBody').find('tr');
+
+    subjects.each(function () {
+      const serialNumber = $(this).find('td:eq(0)').text().toLowerCase();
+      const subjectName = $(this).find('td:eq(1)').text().toLowerCase();
+      // Check if the column contains the search text
+      if (subjectName.includes(searchText) || serialNumber.includes(searchText)) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  }
+
   $("#submitSubjectBtn").click(function (event) {
     event.preventDefault();
     let subName = $("#subName").val();
@@ -43,13 +66,16 @@ $(document).ready(function () {
     });
   });
 
-  function populateSubjects() {
+  function populateSubjects(url) {
     $.ajax({
-      url: subjectslistUrl,
+      url: url || subjectslistUrl,
       method: "GET",
       success: function (response) {
         const subjects = response.results;
         addSubjectFields(subjects);
+        nextPageUrl = response.next;
+        prevPageUrl = response.previous;
+        updatePaginationButtons();
       },
       error: function (xhr, status, error) {
         console.error(xhr, status, error);
@@ -79,16 +105,21 @@ $(document).ready(function () {
 
   function createSubjectTableRow(subject, index) {
     return `
-          <tr>
-            <td>${index}</td>
-            <td>${subject.name}</td>
-            <td>
-              <button class="btn btn-sm btn-success" data-subject-id="${subject.id}">Update</button>
-              <button class="btn btn-sm btn-danger" data-subject-id="${subject.id}">Delete</button>
-            </td>
-          </tr>
-        `;
+      <tr>
+        <td>${index}</td>
+        <td>${subject.name}</td>
+        <td>
+          <button class="btn btn-sm btn-success action-btn update-btn" data-subject-id="${subject.id}" title="Update">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger action-btn delete-btn" data-subject-id="${subject.id}" title="Delete">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+    `;
   }
+
 
   function deleteSubject(subjectId) {
     $.ajax({
@@ -162,6 +193,35 @@ $(document).ready(function () {
       },
     });
   }
+
+  // Pagination buttons click handlers
+  $("#nextPageSubjectBtn").click(function () {
+    if (nextPageUrl) {
+      populateSubjects(nextPageUrl);
+    }
+  });
+
+  $("#prevPageSubjectBtn").click(function () {
+    if (prevPageUrl) {
+      populateSubjects(prevPageUrl);
+    }
+  });
+
+  // Update pagination buttons state
+  function updatePaginationButtons() {
+    if (nextPageUrl) {
+      $("#nextPageSubjectBtn").prop("disabled", false);
+    } else {
+      $("#nextPageSubjectBtn").prop("disabled", true);
+    }
+
+    if (prevPageUrl) {
+      $("#prevPageSubjectBtn").prop("disabled", false);
+    } else {
+      $("#prevPageSubjectBtn").prop("disabled", true);
+    }
+  }
+
 
   populateSubjects();
 });

@@ -27,31 +27,29 @@ class SubjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class SubjectScoreSerializer(serializers.ModelSerializer):
     """
     Serializer for the SubjectScore model.
     """
+
     class Meta:
         model = SubjectScore
-        fields = ('id', 'score', 'subject', 'student')
+        fields = ('subject', 'score')
 
 
 class StudentSerializer(serializers.ModelSerializer):
     """
     Serializer for the Student model.
     """
-    subject_scores = SubjectScoreSerializer(many=True, required=False)
+    subject_scores = SubjectScoreSerializer(many=True)
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'roll_no','student_class', 'photo', 'subject_scores')
+        fields = ('id', 'name', 'roll_no', 'student_class','photo', 'subject_scores')
 
     def create(self, validated_data):
         subject_scores_data = validated_data.pop('subject_scores')
         student = Student.objects.create(**validated_data)
-
         for score_data in subject_scores_data:
             SubjectScore.objects.create(student=student, **score_data)
-
         return student

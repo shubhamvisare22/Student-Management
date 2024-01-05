@@ -1,44 +1,48 @@
-# Student Marksheet Management
+# Student Marsheet
 
-## Overview
-This Django-based web application allows users to manage student marksheets efficiently. It offers functionalities to submit marksheet data via web forms and provides a secure REST API for authenticated users.
+Student Marsheet is a web application designed to manage student information, including CRUD operations for students and subjects, detailed student lists, and a secure REST API endpoint.
 
-### Features
-- **MarkSheet Submission**: Users can submit student marksheets via web forms.
-- **Data Storage**: Marksheet data is stored in the database with fields including Student Name, Roll No, Subjects, Subject Scores, Student Photo, and Class (1 to 12th).
-- **Data Table Display**: Students are displayed in a data table that supports sorting by Name, Roll No, and Marks in any subject. Server-side pagination handles the display of remaining students.
-- **REST API**: Provides secured endpoints for authenticated users to access student data, filter by class, select specific data fields, and retrieve a list of students ordered by highest scoring student first.
-- **User Registration and Login**: JWT-based Authentication is used, allowing users to register, log in, and generate new tokens if the tokens expire.
+## Features
 
-## Endpoints
-### Student Endpoints
-- `/students`: GET, POST, PUT, PATCH, DELETE endpoints for student-related operations.
-- `/student-list`: Endpoint to fetch students ordered by highest scoring student first, supporting filters by class and data selection.
+### 1. CRUD Operations for Students
+- Allows creating, reading, updating, and deleting student information.
+- Student details include name, photo, class, subjects, marks, and a unique roll number.
 
-### Subject and Subject Score Endpoints
-- `/subjects`: GET, POST, PUT, PATCH, DELETE endpoints for subject-related operations.
-- `/subject-scores`: GET, POST, PUT, PATCH, DELETE endpoints for subject score-related operations.
+### 2. Detailed Student List
+- Presented in a table format with pagination (10 students per page).
+- Live search functionality for quick and efficient data retrieval.
+- Features update, delete, and view score buttons.
+- 'View Score' button opens a modal displaying scores for corresponding subjects.
 
-## Usage
-- **Web Forms**: Submit student marksheet data via Ajax calls and store it in the database.
-- **Data Table Display**: Students are displayed in a sortable data table in the UI.
-- **REST API Access**: Authenticated users can call API endpoints to access and filter student data.
+### 3. Utilization of JS, AJAX, and jQuery
+- Entire application built using these technologies for dynamic and responsive functionality.
 
-## User Authentication
-- JWT-based Authentication ensures secure access to the application's functionalities.
-- Users can register, log in, and generate new tokens in case of token expiration.
+### 4. Subjects Table
+- Similar CRUD features available for managing subjects.
+- Maintains consistency and usability akin to student management.
 
-## Postman Collection
-- A collection of API requests is provided in Postman format. Import and use it to explore and interact with the API endpoints effortlessly.
+## REST API Endpoint
+- A secured REST API endpoint providing:
+  - A list of students
+  - Query support for custom data retrieval
+  
+### Endpoint Usage
 
+Endpoint: http://127.0.0.1:8000/api/v1/getstudents/
 
-## Usage Flow:
-1. Register a user: Create a new user account.
-2. Generate Tokens: Obtain authentication tokens (JWT) by logging in.
-3. Use Bearer Token: Include the generated token in the 'Authorization' header as a Bearer token.
-4. Create Subject: Use the authenticated token to create subjects via API endpoints.
-5. Create Student: Use the same authentication token to create students via API endpoints.
-6. Create Subject Scores: Finally, create subject scores associated with students using the API endpoints.
+1. Register and Obtain Tokens
+   - **Step 1**: Register and get both a refresh token and an access token.
+   
+2. Using Refresh Token to Access Endpoint
+   - **Step 2**: Use the refresh token to access the endpoint `getstudents/`.
+   
+3. Token Expiry Handling
+   - **Step 3**: If either token expires, use the username and password to log in and obtain new tokens.
 
----
-
+## Technologies Used
+- Python
+- Django
+- Django Rest Framework
+- JavaScript (JS)
+- AJAX
+- jQuery
