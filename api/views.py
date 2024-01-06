@@ -87,15 +87,16 @@ class SubjectScoreViewSet(viewsets.ModelViewSet):
 
 class StudentViewSet(viewsets.ModelViewSet):
 
-    queryset = Student.objects.annotate(total_score=Sum(
-        'subject_scores__score')).order_by('-total_score')
+    queryset = Student.objects.annotate(total_score=Sum('subject_scores__score')).order_by('-total_score')
     serializer_class = StudentSerializer
     pagination_class = CustomPagination
 
     def create(self, request, *args, **kwargs):
+        # print(request.data)
+        # <QueryDict: {'name': ['s1'], 'roll_no': ['1'], 'stu_cls': ['1'], 'csrfmiddlewaretoken': ['I7RrGC1iI6Ng1Jb5fYJIrI71IqyzitAwIgXGpD6JGelxiUbWSKLhv99vQXk29eyp'], 'subject_scores': ['[{"subject":1,"score":1},{"subject":2,"score":2},{"subject":3,"score":3},{"subject":4,"score":4},{"subject":5,"score":5}]'], 'photo': [<TemporaryUploadedFile: phir-hera-pheri-mere-ko-to-aisa-dhak-dhak-ho-rela-hai.gif (image/gif)>]}>
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save()   
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

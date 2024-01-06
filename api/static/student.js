@@ -264,6 +264,9 @@ $(document).ready(function () {
 
         $("#stuName").val(response.name);
         $("#stuRoll").val(response.roll_no);
+        if ($("#stuRoll")){
+          console.log("Tag available")
+        }
         $("#stuclass").val(response.student_class);
 
         // Populate the student photo if available

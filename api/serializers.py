@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Subject, Student, SubjectScore
 from django.contrib.auth.models import User
 from django.db.models import Sum
+import json
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -28,28 +29,22 @@ class SubjectSerializer(serializers.ModelSerializer):
 
 
 class SubjectScoreSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the SubjectScore model.
-    """
-
     class Meta:
         model = SubjectScore
         fields = ('subject', 'score')
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Student model.
-    """
-    subject_scores = SubjectScoreSerializer(many=True)
+    subject_scores = SubjectScoreSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'roll_no', 'student_class','photo', 'subject_scores')
+        fields = ('id', 'name', 'roll_no', 'student_class',
+                  'photo', 'subject_scores')
 
-    def create(self, validated_data):
-        subject_scores_data = validated_data.pop('subject_scores')
-        student = Student.objects.create(**validated_data)
-        for score_data in subject_scores_data:
-            SubjectScore.objects.create(student=student, **score_data)
-        return student
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        subject_scores_data = SubjectScore.objects.filter(student=instance)
+        representation['subject_scores'] = SubjectScoreSerializer(
+            subject_scores_data, many=True).data
+        return representation

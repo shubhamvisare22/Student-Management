@@ -15,8 +15,7 @@ class Command(BaseCommand):
         self.seed_data()
 
     
-    def generate_unique_roll_no(self):
-        return str(uuid.uuid4())[:5] 
+    
     
     def seed_data(self):
         self.stdout.write("Seeding data...")
@@ -29,7 +28,7 @@ class Command(BaseCommand):
         for _ in range(101):
             student = Student.objects.create(
                 name=fake.name(),
-                roll_no=self.generate_unique_roll_no(), 
+                roll_no=_, 
                 student_class=randint(1, 12),
                 photo="Student-Management\screenshots\live search.png" 
             )
